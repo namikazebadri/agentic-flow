@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # agentflow installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/your-org/agentflow/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/namikazebadri/agentic-flow/main/install.sh | bash
 
 set -euo pipefail
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-REPO="your-org/agentflow"
+REPO="namikazebadri/agentic-flow"
 BINARY="agentflow"
 INSTALL_BIN="/usr/local/bin"
 INSTALL_SHARE="/usr/local/share/agentflow"
