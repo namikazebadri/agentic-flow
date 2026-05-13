@@ -71,33 +71,33 @@
         "strengths": ["simple CRUD", "boilerplate", "schema migrations", "fast iteration"],
         "notes": "Best for simple, well-defined deliverables with no complex logic"
       },
-      "gpt-4-5-high": {
-        "alias": "gpt-4-5-high",
+      "gpt-5-high": {
+        "alias": "gpt-5-high",
         "provider": "openai",
-        "model_id": "gpt-4.5-preview",
-        "display_name": "GPT-4.5 High Compute",
+        "model_id": "gpt-5",
+        "display_name": "GPT-5 High Compute",
         "max_tokens": 8192,
         "tier": "flagship",
         "cost_tier": "high",
         "strengths": ["complex reasoning", "multi-step logic", "frontier tasks"],
         "notes": "High compute mode for most demanding reasoning tasks"
       },
-      "gpt-4-5-medium": {
-        "alias": "gpt-4-5-medium",
+      "gpt-5-medium": {
+        "alias": "gpt-5-medium",
         "provider": "openai",
-        "model_id": "gpt-4.5-preview",
-        "display_name": "GPT-4.5 Medium Compute",
+        "model_id": "gpt-5",
+        "display_name": "GPT-5 Medium Compute",
         "max_tokens": 8192,
         "tier": "standard",
         "cost_tier": "medium",
         "strengths": ["general code", "APIs", "standard features"],
-        "notes": "Balanced GPT-4.5 for most OpenAI-preferred deliverables"
+        "notes": "Balanced GPT-5 for most OpenAI-preferred deliverables"
       },
-      "gpt-codex-4-3": {
-        "alias": "gpt-codex-4-3",
+      "gpt-5-codex": {
+        "alias": "gpt-5-codex",
         "provider": "openai",
-        "model_id": "gpt-4.3-codex",
-        "display_name": "GPT Codex 4.3",
+        "model_id": "gpt-5-codex",
+        "display_name": "GPT-5 Codex",
         "max_tokens": 8192,
         "tier": "code",
         "cost_tier": "medium",
