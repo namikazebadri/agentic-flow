@@ -138,7 +138,7 @@ Legend: `✓ confirmed` · `~ inferred` · `? assumed (needs validation)`
 **Final verification** before generation shows a per-section PRD outline and comprehensive suggestions grouped by severity:
 
 - **MUST CONSIDER** — likely to cause serious problems if ignored
-- **RECOMMENDED** — worth discussing before finalising
+- **RECOMMENDED** — worth discussing before finalising  
 - **OPTIONAL** — nice to have
 
 ---
@@ -312,12 +312,44 @@ All PRDs share one `src/` directory. The agent always reads existing files befor
 
 ## Installation
 
-### Prerequisites
+### One-line install (macOS & Linux)
 
-- Go 1.22+
-- API key for Anthropic, OpenAI, or a running Ollama instance
+```bash
+curl -fsSL https://raw.githubusercontent.com/your-org/agentflow/main/install.sh | bash
+```
 
-### Install
+The script will:
+- Detect your OS and architecture (macOS/Linux, amd64/arm64)
+- Download the pre-built binary for your platform
+- Install binary → `/usr/local/bin/agentflow`
+- Install prompts → `/usr/local/share/agentflow/prompts/`
+- Create config → `~/.agentflow/config.json`
+- Guide you through next steps
+
+### Set Up API Key
+
+After installation, set your API key:
+
+```bash
+# Anthropic (default)
+export ANTHROPIC_API_KEY=sk-ant-...
+
+# OpenAI
+export OPENAI_API_KEY=sk-...
+
+# Add to your shell config to persist across sessions
+echo 'export ANTHROPIC_API_KEY=sk-ant-...' >> ~/.zshrc
+```
+
+To switch provider, edit `~/.agentflow/config.json`:
+
+```json
+{
+  "active_provider": "openai"
+}
+```
+
+### Install from Source
 
 ```bash
 git clone <repo> agentflow-src
@@ -325,28 +357,11 @@ cd agentflow-src
 make install
 ```
 
-`make install` does three things:
-
-1. Builds the binary → `/usr/local/bin/agentflow`
-2. Copies prompts → `/usr/local/share/agentflow/prompts/`
-3. Copies config template → `~/.agentflow/config.json`
-
-### Set Up API Key
-
-```bash
-# Edit your active provider
-nano ~/.agentflow/config.json
-# set "active_provider" to "anthropic", "openai", or "ollama"
-
-# Export your key
-export ANTHROPIC_API_KEY=sk-ant-...
-# or
-export OPENAI_API_KEY=sk-...
-```
-
 ### Uninstall
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/your-org/agentflow/main/install.sh | bash -s -- --uninstall
+# or if installed from source:
 make uninstall
 ```
 
@@ -536,8 +551,12 @@ The gate auto-detects your tech stack:
 Custom commands can be added in `config.json`:
 
 ```json
-"gate": {
-  "custom_commands": ["staticcheck ./..."]
+{ 
+  "gate": {
+    "custom_commands": [
+      "staticcheck ./..."
+    ]
+  }
 }
 ```
 
@@ -550,9 +569,9 @@ Custom commands can be added in `config.json`:
 ```json
 {
   "active_provider": "anthropic",
-  "providers": { "..." },
+  "providers": { "": "..." },
   "models": {
-    "models": { "..." },
+    "models": { "": "..." },
     "suggestion_rules": [ "..." ]
   },
   "pipeline": {
