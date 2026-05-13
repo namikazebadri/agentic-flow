@@ -331,6 +331,32 @@ setup_api_key() {
             ;;
     esac
 
+    # On re-install, avoid prompting again and appending a duplicate export
+    # line to the shell config.
+    if [[ -n "${!env_var:-}" ]]; then
+        success "${env_var} already set in environment — skipping API key prompt."
+        return
+    fi
+
+    local existing_rc=""
+    case "$SHELL" in
+        */zsh)  existing_rc="$HOME/.zshrc" ;;
+        */bash)
+            if [[ "$(uname -s)" == "Darwin" ]]; then
+                existing_rc="$HOME/.bash_profile"
+            else
+                existing_rc="$HOME/.bashrc"
+            fi
+            ;;
+        */fish) existing_rc="$HOME/.config/fish/config.fish" ;;
+    esac
+    if [[ -n "$existing_rc" && -f "$existing_rc" ]] \
+       && grep -qE "^[[:space:]]*export[[:space:]]+${env_var}=" "$existing_rc" 2>/dev/null; then
+        success "${env_var} already configured in ${existing_rc} — skipping prompt."
+        info "Run 'source ${existing_rc}' if it's not loaded in this session."
+        return
+    fi
+
     echo ""
     echo -e "${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
     echo -e "${BOLD}  API Key Setup${RESET}"
