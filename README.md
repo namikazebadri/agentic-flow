@@ -315,7 +315,7 @@ All PRDs share one `src/` directory. The agent always reads existing files befor
 ### One-line install (macOS & Linux)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/your-org/agentflow/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/namikazebadri/agentic-flow/main/install.sh | bash
 ```
 
 The script will:
@@ -360,7 +360,7 @@ make install
 ### Uninstall
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/your-org/agentflow/main/install.sh | bash -s -- --uninstall
+curl -fsSL https://raw.githubusercontent.com/namikazebadri/agentic-flow/main/install.sh | bash -s -- --uninstall
 # or if installed from source:
 make uninstall
 ```
