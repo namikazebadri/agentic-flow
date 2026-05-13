@@ -268,12 +268,15 @@ Based on the answers collected:
 Return ONLY valid JSON matching the agentDecision schema.`,
 		featureName, projectContext, string(historyJSON))
 
+	spinner := NewSpinner()
+	spinner.Start()
 	resp, err := a.Complete(ctx, llm.Request{
 		SystemPrompt: systemPrompt,
 		Messages:     []llm.Message{{Role: "user", Content: userMsg}},
 		MaxTokens:    8192,
 		Temperature:  0.3,
 	})
+	spinner.Stop()
 	if err != nil {
 		return nil, err
 	}
@@ -309,12 +312,15 @@ Generate the full PRD document now.
 Return ONLY valid JSON: {"status":"complete","collected_points":[],"missing_areas":[],"prd_content":"...full markdown..."}`,
 		featureName, projectContext, string(historyJSON))
 
+	spinner := NewSpinner()
+	spinner.Start()
 	resp, err := a.Complete(ctx, llm.Request{
 		SystemPrompt: systemPrompt,
 		Messages:     []llm.Message{{Role: "user", Content: userMsg}},
 		MaxTokens:    8192,
 		Temperature:  0.2,
 	})
+	spinner.Stop()
 	if err != nil {
 		return "", err
 	}
