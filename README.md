@@ -95,6 +95,22 @@ cd agentflow-src
 make install
 ```
 
+### Update
+
+Re-run the same one-line install command — it pulls the latest release and replaces the binary and prompts in place:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/namikazebadri/agentic-flow/main/install.sh | bash
+```
+
+What happens on an upgrade:
+- Binary at `/usr/local/bin/agentflow` is overwritten with the new version
+- Prompts at `/usr/local/share/agentflow/prompts/` are overwritten
+- `~/.agentflow/config.json` is **preserved** (your settings, model catalog, gate options)
+- API key prompt is **skipped** if `ANTHROPIC_API_KEY` (or your active provider's env var) is already exported, or already present in your shell config — no duplicate export lines get appended
+
+If installed from source, run `make install` again from an updated checkout.
+
 ### Uninstall
 
 ```bash
