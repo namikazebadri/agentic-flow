@@ -170,7 +170,7 @@ install_config() {
       "name": "Anthropic",
       "base_url": "https://api.anthropic.com",
       "api_key_env": "ANTHROPIC_API_KEY",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6",
       "max_tokens": 8192
     },
     "openai": {
@@ -194,7 +194,7 @@ install_config() {
       "claude-opus-4-6": {
         "alias": "claude-opus-4-6",
         "provider": "anthropic",
-        "model_id": "claude-opus-4-6-20250514",
+        "model_id": "claude-opus-4-6",
         "display_name": "Claude Opus 4.6",
         "max_tokens": 8192,
         "tier": "flagship",
@@ -205,7 +205,7 @@ install_config() {
       "claude-sonnet-4-6": {
         "alias": "claude-sonnet-4-6",
         "provider": "anthropic",
-        "model_id": "claude-sonnet-4-20250514",
+        "model_id": "claude-sonnet-4-6",
         "display_name": "Claude Sonnet 4.6",
         "max_tokens": 8192,
         "tier": "standard",
