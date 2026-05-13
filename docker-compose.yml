@@ -1,0 +1,76 @@
+version: "3.9"
+
+services:
+  # ── agentflow: main pipeline ───────────────────────────────────────────────
+  agentflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    image: agentflow:latest
+    container_name: agentflow
+    env_file:
+      - .env
+    environment:
+      - AGENTFLOW_PROVIDER=${AGENTFLOW_PROVIDER:-anthropic}
+      - AGENTFLOW_VERBOSE=${AGENTFLOW_VERBOSE:-false}
+    volumes:
+      # Persist output across runs
+      - agentflow-workspace:/app/workspace
+      - agentflow-registry:/app/registry
+      # Mount local prompts for live editing without rebuild
+      - ./prompts:/app/prompts:ro
+      # Mount local config
+      - ./configs/config.json:/app/config.json:ro
+    # Default: show help. Override with: docker-compose run agentflow run --prd ...
+    command: ["list"]
+    restart: "no"
+
+  # ── ollama: local LLM (optional) ──────────────────────────────────────────
+  ollama:
+    image: ollama/ollama:latest
+    container_name: agentflow-ollama
+    profiles:
+      - ollama          # only starts when: docker-compose --profile ollama up
+    volumes:
+      - ollama-models:/root/.ollama
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    environment:
+      - OLLAMA_ORIGINS=*
+
+  # ── ollama-init: pull model on first run ──────────────────────────────────
+  ollama-init:
+    image: ollama/ollama:latest
+    container_name: agentflow-ollama-init
+    profiles:
+      - ollama
+    depends_on:
+      - ollama
+    volumes:
+      - ollama-models:/root/.ollama
+    entrypoint: ["/bin/sh", "-c", "sleep 5 && ollama pull ${OLLAMA_MODEL:-llama3.1:8b}"]
+    restart: "no"
+
+volumes:
+  agentflow-workspace:
+    name: agentflow-workspace
+  agentflow-registry:
+    name: agentflow-registry
+  ollama-models:
+    name: agentflow-ollama-models
+
+# ── Usage examples ────────────────────────────────────────────────────────────
+# Run pipeline:
+#   docker-compose run agentflow run --prd /app/workspace/my-prd.md --name "My Project"
+#
+# With Ollama:
+#   AGENTFLOW_PROVIDER=ollama docker-compose --profile ollama up -d ollama
+#   docker-compose run agentflow run --prd /app/workspace/my-prd.md --name "My Project"
+#
+# List projects:
+#   docker-compose run agentflow list
+#
+# Check status:
+#   docker-compose run agentflow status --project <project-id>

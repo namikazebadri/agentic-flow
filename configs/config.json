@@ -1,0 +1,174 @@
+{
+  "active_provider": "anthropic",
+
+  "providers": {
+    "anthropic": {
+      "name": "Anthropic",
+      "base_url": "https://api.anthropic.com",
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "model": "claude-sonnet-4-20250514",
+      "max_tokens": 8192
+    },
+    "openai": {
+      "name": "OpenAI",
+      "base_url": "https://api.openai.com",
+      "api_key_env": "OPENAI_API_KEY",
+      "model": "gpt-4.1",
+      "max_tokens": 8192
+    },
+    "ollama": {
+      "name": "Ollama (local)",
+      "base_url": "http://localhost:11434",
+      "api_key_env": "OLLAMA_API_KEY",
+      "model": "llama3.1:8b",
+      "max_tokens": 4096
+    }
+  },
+
+  "models": {
+    "models": {
+      "claude-opus-4-7": {
+        "alias": "claude-opus-4-7",
+        "provider": "anthropic",
+        "model_id": "claude-opus-4-7-20250514",
+        "display_name": "Claude Opus 4.7",
+        "max_tokens": 8192,
+        "tier": "flagship",
+        "cost_tier": "high",
+        "strengths": ["complex reasoning", "architecture decisions", "long context", "ambiguous requirements"],
+        "notes": "Best for highly complex deliverables with many dependencies or unclear scope"
+      },
+      "claude-opus-4-6": {
+        "alias": "claude-opus-4-6",
+        "provider": "anthropic",
+        "model_id": "claude-opus-4-6-20250514",
+        "display_name": "Claude Opus 4.6",
+        "max_tokens": 8192,
+        "tier": "flagship",
+        "cost_tier": "high",
+        "strengths": ["complex reasoning", "nuanced code", "security analysis"],
+        "notes": "Strong for security-critical or architecturally complex deliverables"
+      },
+      "claude-sonnet-4-6": {
+        "alias": "claude-sonnet-4-6",
+        "provider": "anthropic",
+        "model_id": "claude-sonnet-4-20250514",
+        "display_name": "Claude Sonnet 4.6",
+        "max_tokens": 8192,
+        "tier": "standard",
+        "cost_tier": "medium",
+        "strengths": ["code generation", "balanced speed/quality", "standard features"],
+        "notes": "Best default for most deliverables — good balance of quality and cost"
+      },
+      "claude-haiku-4-5": {
+        "alias": "claude-haiku-4-5",
+        "provider": "anthropic",
+        "model_id": "claude-haiku-4-5-20251001",
+        "display_name": "Claude Haiku 4.5",
+        "max_tokens": 4096,
+        "tier": "fast",
+        "cost_tier": "low",
+        "strengths": ["simple CRUD", "boilerplate", "schema migrations", "fast iteration"],
+        "notes": "Best for simple, well-defined deliverables with no complex logic"
+      },
+      "gpt-4-5-high": {
+        "alias": "gpt-4-5-high",
+        "provider": "openai",
+        "model_id": "gpt-4.5-preview",
+        "display_name": "GPT-4.5 High Compute",
+        "max_tokens": 8192,
+        "tier": "flagship",
+        "cost_tier": "high",
+        "strengths": ["complex reasoning", "multi-step logic", "frontier tasks"],
+        "notes": "High compute mode for most demanding reasoning tasks"
+      },
+      "gpt-4-5-medium": {
+        "alias": "gpt-4-5-medium",
+        "provider": "openai",
+        "model_id": "gpt-4.5-preview",
+        "display_name": "GPT-4.5 Medium Compute",
+        "max_tokens": 8192,
+        "tier": "standard",
+        "cost_tier": "medium",
+        "strengths": ["general code", "APIs", "standard features"],
+        "notes": "Balanced GPT-4.5 for most OpenAI-preferred deliverables"
+      },
+      "gpt-codex-4-3": {
+        "alias": "gpt-codex-4-3",
+        "provider": "openai",
+        "model_id": "gpt-4.3-codex",
+        "display_name": "GPT Codex 4.3",
+        "max_tokens": 8192,
+        "tier": "code",
+        "cost_tier": "medium",
+        "strengths": ["code generation", "refactoring", "test writing", "code completion"],
+        "notes": "Optimised specifically for code tasks — preferred for pure implementation deliverables"
+      }
+    },
+
+    "suggestion_rules": [
+      {
+        "description": "Large deliverables with many dependencies → flagship model",
+        "conditions": {
+          "complexity": "L",
+          "min_dependencies": 3
+        },
+        "suggest_model": "claude-opus-4-6"
+      },
+      {
+        "description": "Security-critical or auth-related deliverables → flagship",
+        "conditions": {
+          "has_keywords": ["security", "auth", "authentication", "authorization", "jwt", "oauth", "permission", "rbac", "encryption", "crypto"]
+        },
+        "suggest_model": "claude-opus-4-6"
+      },
+      {
+        "description": "Architecture or design deliverables → flagship",
+        "conditions": {
+          "has_keywords": ["architecture", "schema", "design", "database", "migration", "infrastructure", "scaffold"]
+        },
+        "suggest_model": "claude-sonnet-4-6"
+      },
+      {
+        "description": "Large or medium deliverables → standard model",
+        "conditions": {
+          "complexity": "L,M"
+        },
+        "suggest_model": "claude-sonnet-4-6"
+      },
+      {
+        "description": "Pure code generation tasks → codex if on openai",
+        "conditions": {
+          "has_keywords": ["endpoint", "api", "handler", "controller", "service", "repository", "test"]
+        },
+        "suggest_model": "claude-sonnet-4-6"
+      },
+      {
+        "description": "Simple deliverables → fast model",
+        "conditions": {
+          "complexity": "S"
+        },
+        "suggest_model": "claude-haiku-4-5"
+      }
+    ]
+  },
+
+  "pipeline": {
+    "max_retries": 3,
+    "retry_delay_seconds": 2,
+    "prompts_dir": "/usr/local/share/agentflow/prompts",
+    "verbose": false
+  },
+
+  "registry": {
+    "base_dir": ".agentflow/registry"
+  },
+
+  "gate": {
+    "coverage_threshold": 0.8,
+    "enable_lint": true,
+    "enable_tests": true,
+    "enable_type_check": true,
+    "custom_commands": []
+  }
+}
