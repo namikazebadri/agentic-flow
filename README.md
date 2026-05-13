@@ -85,6 +85,8 @@ To switch provider, edit `~/.agentflow/config.json`:
 }
 ```
 
+> **Note:** `api_key_env` in `config.json` is the **name** of an environment variable (e.g. `ANTHROPIC_API_KEY`), never the key value itself. The installer writes the key to your shell config for you — you should never paste a secret into `config.json`.
+
 ### Install from Source
 
 ```bash
