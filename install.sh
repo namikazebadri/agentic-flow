@@ -343,7 +343,7 @@ setup_api_key() {
     echo -e "  ${YELLOW}Your key is saved to your shell config file — never sent anywhere else.${RESET}"
     echo ""
     echo -e "  Enter your API key (or press Enter to skip):"
-    echo -n "  ${BOLD}→ ${RESET}"
+    echo -en "  ${BOLD}→ ${RESET}"
 
     local api_key=""
     IFS= read -rs api_key </dev/tty || true
