@@ -11,6 +11,7 @@ Every phase is designed around one principle: **AI executes, the system maintain
 ## Table of Contents
 
 - [Philosophy](#philosophy)
+- [Installation](#installation)
 - [Overview](#overview)
 - [Full Flow](#full-flow)
   - [Phase 0: PRD Builder — Adaptive Interview](#phase-0-prd-builder--adaptive-interview)
@@ -18,7 +19,6 @@ Every phase is designed around one principle: **AI executes, the system maintain
   - [Phase 2: Decomposer Agent](#phase-2-decomposer-agent)
   - [Phase 3: Implementation Loop](#phase-3-implementation-loop)
 - [Project Structure](#project-structure)
-- [Installation](#installation)
 - [Usage](#usage)
 - [Model Catalog & Token Management](#model-catalog--token-management)
 - [Automated Gate](#automated-gate)
@@ -43,6 +43,63 @@ agentflow is built on five principles:
 | **AI needs rich context** | Context builder injects existing codebase + standards + ADRs into every agent call |
 | **Short loops beat big bang** | One deliverable → implement → gate → review → next |
 | **Every issue is traced to its root** | Issues are categorised and logged for systemic feedback loops |
+
+---
+
+## Installation
+
+### One-line install (macOS & Linux)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/namikazebadri/agentic-flow/main/install.sh | bash
+```
+
+The script will:
+- Detect your OS and architecture (macOS/Linux, amd64/arm64)
+- Download the pre-built binary for your platform
+- Install binary → `/usr/local/bin/agentflow`
+- Install prompts → `/usr/local/share/agentflow/prompts/`
+- Create config → `~/.agentflow/config.json`
+- Guide you through next steps
+
+### Set Up API Key
+
+After installation, set your API key:
+
+```bash
+# Anthropic (default)
+export ANTHROPIC_API_KEY=sk-ant-...
+
+# OpenAI
+export OPENAI_API_KEY=sk-...
+
+# Add to your shell config to persist across sessions
+echo 'export ANTHROPIC_API_KEY=sk-ant-...' >> ~/.zshrc
+```
+
+To switch provider, edit `~/.agentflow/config.json`:
+
+```json
+{
+  "active_provider": "openai"
+}
+```
+
+### Install from Source
+
+```bash
+git clone <repo> agentflow-src
+cd agentflow-src
+make install
+```
+
+### Uninstall
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/namikazebadri/agentic-flow/main/install.sh | bash -s -- --uninstall
+# or if installed from source:
+make uninstall
+```
 
 ---
 
@@ -307,63 +364,6 @@ my-project/
 ```
 
 All PRDs share one `src/` directory. The agent always reads existing files before implementing a new deliverable, ensuring consistency across sprints.
-
----
-
-## Installation
-
-### One-line install (macOS & Linux)
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/namikazebadri/agentic-flow/main/install.sh | bash
-```
-
-The script will:
-- Detect your OS and architecture (macOS/Linux, amd64/arm64)
-- Download the pre-built binary for your platform
-- Install binary → `/usr/local/bin/agentflow`
-- Install prompts → `/usr/local/share/agentflow/prompts/`
-- Create config → `~/.agentflow/config.json`
-- Guide you through next steps
-
-### Set Up API Key
-
-After installation, set your API key:
-
-```bash
-# Anthropic (default)
-export ANTHROPIC_API_KEY=sk-ant-...
-
-# OpenAI
-export OPENAI_API_KEY=sk-...
-
-# Add to your shell config to persist across sessions
-echo 'export ANTHROPIC_API_KEY=sk-ant-...' >> ~/.zshrc
-```
-
-To switch provider, edit `~/.agentflow/config.json`:
-
-```json
-{
-  "active_provider": "openai"
-}
-```
-
-### Install from Source
-
-```bash
-git clone <repo> agentflow-src
-cd agentflow-src
-make install
-```
-
-### Uninstall
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/namikazebadri/agentic-flow/main/install.sh | bash -s -- --uninstall
-# or if installed from source:
-make uninstall
-```
 
 ---
 
